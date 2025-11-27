@@ -13,9 +13,34 @@ namespace App.Domain.Service.CategoryAgg
             return categoryRepository.GetCategoriesByAuthorId(authorId);
         }
 
+        public List<GetCategoriesDto> GetAll()
+        {
+            return categoryRepository.GetAll();
+        }
+
         public int Create(CreateCategoryDto createCategory)
         {
             return categoryRepository.Create(createCategory);
+        }
+
+        public GetCategoriesDto GetCategoryById(int categoryId)
+        {
+            return categoryRepository.GetCategoryById(categoryId);
+        }
+
+        public int Update(UpdateCategoryDto updateCategory)
+        {
+            return categoryRepository.Update(updateCategory);
+        }
+
+        public int Delete(int categoryId)
+        {
+            return categoryRepository.Delete(categoryId);
+        }
+
+        public GetCategoriesDto GetCategoriesById(int categoryId)
+        {
+            return categoryRepository.GetCategoryById(categoryId);
         }
     }
 }

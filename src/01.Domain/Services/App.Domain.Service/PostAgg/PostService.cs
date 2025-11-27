@@ -8,9 +8,9 @@ namespace App.Domain.Service.PostAgg
 {
     public class PostService(IPostRepository postRepository): IPostService
     {
-        public List<GetPostForFeedsDto> GetFeedPosts()
+        public List<GetPostForFeedsDto> GetFeedPosts(string categoryFilter)
         {
-            return postRepository.GetFeedPosts();
+            return postRepository.GetFeedPosts(categoryFilter);
         }
 
         public int Create(CreatePostDto createPost)
@@ -31,6 +31,11 @@ namespace App.Domain.Service.PostAgg
         public int Update(UpdatePostDto updatePost)
         {
             return postRepository.Update(updatePost);
+        }
+
+        public int Delete(int postId)
+        {
+            return postRepository.Delete(postId);
         }
     }
 }

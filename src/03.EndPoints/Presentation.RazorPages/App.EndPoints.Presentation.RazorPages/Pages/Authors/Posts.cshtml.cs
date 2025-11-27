@@ -9,10 +9,25 @@ namespace App.EndPoints.Presentation.RazorPages.Pages.Authors
     public class PostsModel(IPostAppService postAppService) : PageModel
     {
         public List<GetPostsByAuthorId> Posts { get; set; }
+        public string Message { get; set; }
         public IActionResult OnGet()
         {
             Posts = postAppService.GetPostsByAuthorId(LoggedInUser.UserId);
             return Page();
+        }
+
+        public IActionResult OnGetDelete(int Id)
+        {
+            var result = postAppService.Delete(Id);
+            if (result.IsSuccess)
+            {
+                return RedirectToPage("/Authors/Posts");
+            }
+            else
+            {
+                Message = result.Message;
+                return Page();
+            }
         }
     }
 }

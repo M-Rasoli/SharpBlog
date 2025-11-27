@@ -7,8 +7,34 @@
 
 <!-- محتوای اصلی فید -->
 <main class="max-w-lg mx-auto px-4 pt-6 pb-24">
+    <form method="get"
+          class="mb-4 flex flex-col md:flex-row md:items-center gap-3 bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+        <div class="flex items-center gap-2">
+            <label asp-for="@Model.CategoryFilter" class="text-gray-700 font-medium whitespace-nowrap">
+                انتخاب دسته بندی:
+            </label>
 
+            <select asp-for="@Model.CategoryFilter"
+                    @* onchange="this.form.submit()" *@
+                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 font-[inherit]">
 
+                <option value="">همه</option>
+
+                @foreach (var day in Model.Categories)
+                {
+                    <option value="@day.Title">
+                        @day.Title
+                    </option>
+                }
+
+            </select>
+        </div>
+        <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-3 rounded-lg shadow transition duration-150">
+            🔍 جستجو
+        </button>
+
+    </form>
     <!-- فید پست‌ها -->
     @if (Model.Feeds != null && Model.Feeds.Any())
     {
@@ -51,7 +77,14 @@
                             }
                         </div>
                     </div>
-
+                    <div class="p-4 pt-0">
+                        <a asp-page="/Posts/WithDetails"
+                           asp-route-id="@post.Id"
+                           class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium rounded-xl transition shadow">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            مشاهده جزئیات
+                        </a>
+                    </div>
 
                     <!-- تاریخ -->
                     <p class="text-xs text-gray-400 mt-4">

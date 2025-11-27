@@ -8,10 +8,11 @@ namespace App.Domain.Core.PostAgg.Contracts
 {
     public interface IPostAppService
     {
-        List<GetPostForFeedsDto> GetFeedPosts();
+        List<GetPostForFeedsDto> GetFeedPosts(string categoryFilter);
         Result<bool> Create(CreatePostDto createPost);
         List<GetPostsByAuthorId> GetPostsByAuthorId(int authorId);
         GetPostForFeedsDto GetPostById(int postId);
         Result<bool> Update(UpdatePostDto updatePost);
+        Result<bool> Delete(int postId);
     }
 }

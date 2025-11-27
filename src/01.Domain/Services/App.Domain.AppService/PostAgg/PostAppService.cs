@@ -9,9 +9,9 @@ namespace App.Domain.AppService.PostAgg
 {
     public class PostAppService(IPostService postService) : IPostAppService
     {
-        public List<GetPostForFeedsDto> GetFeedPosts()
+        public List<GetPostForFeedsDto> GetFeedPosts(string categoryFilter)
         {
-            return postService.GetFeedPosts();
+            return postService.GetFeedPosts(categoryFilter);
         }
 
         public Result<bool> Create(CreatePostDto createPost)
@@ -55,6 +55,19 @@ namespace App.Domain.AppService.PostAgg
             if (result > 0)
             {
                 return Result<bool>.Success(message: "تغییرات با موفقیت اعمال شد.");
+            }
+            else
+            {
+                return Result<bool>.Failure(message: "مشکلی پیش آمده است لحظاتی بعد تلاش کنید.");
+            }
+        }
+
+        public Result<bool> Delete(int postId)
+        {
+            var result = postService.Delete(postId);
+            if (result > 0)
+            {
+                return Result<bool>.Success(message: "پست با موفقیت حذف شد.");
             }
             else
             {

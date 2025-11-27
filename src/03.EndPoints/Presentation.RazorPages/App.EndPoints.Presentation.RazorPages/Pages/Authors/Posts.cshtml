@@ -86,7 +86,7 @@
 
 
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a asp-page="/Posts/Delete" asp-route-Id="@post.Id" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-blue-600 transition duration-150 shadow-md" onclick="return confirm('پست حذف شود ؟');">حذف</a>
+                                    <a asp-page-handler="Delete" asp-route-Id="@post.Id" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-blue-600 transition duration-150 shadow-md" onclick="return confirm('پست حذف شود ؟');">حذف</a>
                                 </td>
                             </tr>
                         }

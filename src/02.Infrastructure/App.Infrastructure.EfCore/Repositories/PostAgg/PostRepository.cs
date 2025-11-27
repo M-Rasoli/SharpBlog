@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.JavaScript;
-using System.Text;
-using App.Domain.Core.PostAgg.Contracts;
+﻿using App.Domain.Core.PostAgg.Contracts;
 using App.Domain.Core.PostAgg.Dtos;
 using App.Domain.Core.PostAgg.Entities;
 using App.Infrastructure.EfCore.Persistence;
 using MaktabGram.Framework;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
+using System.Text;
 
 namespace App.Infrastructure.EfCore.Repositories.PostAgg
 {
     public class PostRepository(AppDbContext _context) : IPostRepository
     {
-        public List<GetPostForFeedsDto> GetFeedPosts()
+        public List<GetPostForFeedsDto> GetFeedPosts(string categoryFilter)
         {
-            return _context.Posts.AsNoTracking()
+            var posts = _context.Posts.AsNoTracking()
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(x => new GetPostForFeedsDto()
                 {
@@ -27,7 +28,13 @@ namespace App.Infrastructure.EfCore.Repositories.PostAgg
                     CreatedAtShamsi = x.CreatedAtShamsi,
                     Category = x.Category.Title
 
-                }).ToList();
+                });
+            if (!string.IsNullOrWhiteSpace(categoryFilter))
+            {
+                posts = posts.Where(p => p.Category == categoryFilter);
+            }
+
+            return posts.ToList();
         }
 
         public int Create(CreatePostDto createPost)
@@ -74,6 +81,8 @@ namespace App.Infrastructure.EfCore.Repositories.PostAgg
                     Title = x.Title,
                     Text = x.Text,
                     ImgUrl = x.ImgUrl,
+                    CreatedAt = x.CreatedAt,
+                    CreatedAtShamsi = x.CreatedAtShamsi,
                     Category = x.Category.Title
 
                 }).FirstOrDefault();
@@ -94,6 +103,12 @@ namespace App.Infrastructure.EfCore.Repositories.PostAgg
                 post.ImgUrl = updatePost.ImgUrl ?? post.ImgUrl;
                 return _context.SaveChanges();
             }
+        }
+
+        public int Delete(int postId)
+        {
+            return _context.Posts.Where(p => p.Id == postId)
+                .ExecuteDelete();
         }
     }
 }

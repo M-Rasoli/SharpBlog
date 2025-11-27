@@ -8,6 +8,10 @@ namespace App.Domain.Core.CategoryAgg.Contracts
     public interface ICategoryService
     {
         List<GetCategoriesDto> GetCategoriesByAuthorId(int authorId);
+        List<GetCategoriesDto> GetAll();
         int Create(CreateCategoryDto createCategory);
+        GetCategoriesDto GetCategoryById(int categoryId);
+        int Update(UpdateCategoryDto updateCategory);
+        int Delete(int categoryId);
     }
 }
