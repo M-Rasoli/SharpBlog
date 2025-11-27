@@ -1,0 +1,147 @@
+﻿
+@{
+    
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - ورود</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vazirmatn Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #EBEBEB;
+            color: #262626;
+            min-height: 100vh;
+        }
+
+        /* گرادینت استوری‌ها - همون رنگ شیک جدید */
+        .story-border {
+            padding: 3px;
+            background: linear-gradient(45deg, #6B46C1, #F687B3, #FBBF24);
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        /* مخفی کردن اسکرول‌بار در نوار استوری */
+        .story-reel::-webkit-scrollbar,
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story-reel,
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* انیمیشن قلب لایک */
+        .like-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+            .like-overlay.show {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+        /* پست کارت‌ها */
+        .post-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .post-card:hover {
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+                transform: scale(1.005);
+            }
+
+        /* دکمه‌های اکشن */
+        .action-btn {
+            transition: all 0.15s ease;
+        }
+
+            .action-btn:hover {
+                transform: translateY(-1px);
+            }
+
+        /* الرت سفارشی */
+        #customAlert {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- هدر ثابت (مشترک همه صفحات) -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-100 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+            <!-- لوگو -->
+            <a href="/" class="text-2xl font-bold text-gray-800">وبلاگ</a>
+
+            <!-- آیکون‌های ناوبری -->
+            <!-- آیکون‌های ناوبری -->
+            <nav class="flex items-center gap-5"> <!-- فقط gap-5 یا gap-6 بذار، space-x-reverse حذف شد -->
+                <!-- اول: آیکون ورود -->
+                <a href="/Account/Login"
+                   title="ورود / ثبت‌نام"
+                   class="story-border inline-block rounded-full transition-transform hover:scale-110">
+                    <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center">
+                        <i data-lucide="log-in" class="w-5 h-5 text-gray-800"></i>
+                    </div>
+                </a>
+
+                <!-- دوم: آیکون خانه -->
+                <a href="/Index" 
+                   title="خانه" 
+                   class="text-gray-800 hover:text-indigo-600 transition-transform hover:scale-110">
+                    <i data-lucide="home" class="w-6 h-6"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- فاصله برای هدر ثابت -->
+    <div class="pt-14 min-h-screen">
+        @RenderBody()
+    </div>
+
+    <!-- الرت سفارشی (اختیاری - برای صفحه آپلود) -->
+    <div id="customAlert" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl z-[100]">
+        <p id="alertText" class="text-sm font-medium"></p>
+    </div>
+
+    <!-- فعال‌سازی آیکون‌های Lucide -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

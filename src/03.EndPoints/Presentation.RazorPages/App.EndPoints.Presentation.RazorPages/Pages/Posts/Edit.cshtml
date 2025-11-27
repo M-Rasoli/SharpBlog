@@ -1,0 +1,121 @@
+﻿@page "{id:int}"
+@model App.EndPoints.Presentation.RazorPages.Pages.Posts.EditModel
+@{
+    ViewData["Title"] = "ویرایش پست";
+    ViewData["PageTitle"] = "ویرایش پست";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<main class="max-w-4xl mx-auto px-4 pt-6 pb-20">
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-white">
+            <h1 class="text-2xl font-bold text-center">ویرایش پست</h1>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="p-6 space-y-8">
+            <input type="hidden" asp-for="Model.Id" />
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- سمت چپ: آپلود و پیش‌نمایش -->
+                <div class="space-y-6">
+                    <div id="uploadArea" class="border-4 border-dashed border-gray-300 rounded-2xl p-10 text-center cursor-pointer hover:border-indigo-400 transition"
+                         onclick="document.getElementById('fileInput').click()">
+
+                        <input type="file" id="fileInput" asp-for="Model.Image" accept="image/jpeg,image/jpg,image/png" class="hidden" onchange="handleFileSelect(event)">
+
+                        <!-- اگر تصویر قبلی وجود داشت -->
+                        @if (!string.IsNullOrEmpty(Model.Model.ExistingImageUrl))
+                        {
+                            <div id="imagePreview">
+                                <img id="previewImg" src="/@Model.Model.ExistingImageUrl" alt="تصویر فعلی" class="w-full rounded-xl shadow-lg">
+                                <button type="button" onclick="resetUpload()" class="mt-4 text-red-500 hover:text-red-700 text-sm">
+                                    تغییر عکس
+                                </button>
+                            </div>
+                            <div id="uploadContent" class="hidden">
+                                <i data-lucide="image" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                                <p class="text-lg font-medium text-gray-700">عکس جدید بکشید یا کلیک کنید</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="uploadContent">
+                                <i data-lucide="image" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                                <p class="text-lg font-medium text-gray-700">عکس را اینجا بکشید یا کلیک کنید</p>
+                                <p class="text-sm text-gray-500 mt-2">پشتیبانی از JPG, PNG, GIF</p>
+                            </div>
+                            <div id="imagePreview" class="hidden">
+                                <img id="previewImg" src="" alt="پیش‌نمایش" class="w-full rounded-xl shadow-lg">
+                                <button type="button" onclick="resetUpload()" class="mt-4 text-red-500 hover:text-red-700 text-sm">تغییر عکس</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- سمت راست: فرم -->
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">عنوان</label>
+                        <input asp-for="Model.Title" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">متن پست (کپشن)</label>
+                        <textarea asp-for="Model.Text" rows="6" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">دسته بندی</label>
+                        <select asp-for="Model.CategoryId" required class="w-full px-5 py-4 text-lg border border-gray-300 rounded-xl focus:ring-4 focus:ring-indigo-500">
+                            <option value="@Model.Model.Id">@Model.Model.Category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+
+                            }
+                        </select>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="mt-4 text-center text-sm text-red-600">@Model.Message</div>
+                    }
+
+                    <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
+                        <a asp-page="/Authors/Posts" class="px-8 py-3 bg-gray-500 text-white font-bold rounded-full hover:bg-gray-600 transition">
+                            انصراف
+                        </a>
+                        <button type="submit" class="px-10 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2">
+                            ذخیره تغییرات
+                            <i data-lucide="save" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                document.getElementById('previewImg').src = ev.target.result;
+                document.getElementById('imagePreview').classList.remove('hidden');
+                document.getElementById('uploadContent').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetUpload() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('uploadContent').classList.remove('hidden');
+        }
+
+        lucide.createIcons();
+    </script>
+}

@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/00.Framework/">
+    <Project Path="src/00.Framework/App.Framework/App.Framework.csproj" Id="25981180-3cbc-4511-898b-ede5da15ae33" />
+  </Folder>
+  <Folder Name="/src/01.Domain/" />
+  <Folder Name="/src/01.Domain/Core/">
+    <Project Path="src/01.Domain/Core/App.Domain.Core/App.Domain.Core.csproj" />
+  </Folder>
+  <Folder Name="/src/01.Domain/Services/">
+    <Project Path="src/01.Domain/Services/App.Domain.AppService/App.Domain.AppService.csproj" />
+    <Project Path="src/01.Domain/Services/App.Domain.Service/App.Domain.Service.csproj" />
+  </Folder>
+  <Folder Name="/src/02.Infrastructure/">
+    <Project Path="src/02.Infrastructure/App.Infrastructure.EfCore/App.Infrastructure.EfCore.csproj" />
+    <Project Path="src/02.Infrastructure/App.Infrastructure.FileService/App.Infrastructure.FileService.csproj" />
+  </Folder>
+  <Folder Name="/src/03.EndPoints/" />
+  <Folder Name="/src/03.EndPoints/Presentation.RazorPages/">
+    <Project Path="src/03.EndPoints/Presentation.RazorPages/App.EndPoints.Presentation.RazorPages/App.EndPoints.Presentation.RazorPages.csproj" />
+  </Folder>
+</Solution>

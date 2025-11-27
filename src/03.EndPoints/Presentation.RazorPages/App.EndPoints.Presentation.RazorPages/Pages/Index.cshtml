@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "خانه";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<!-- محتوای اصلی فید -->
+<main class="max-w-lg mx-auto px-4 pt-6 pb-24">
+
+
+    <!-- فید پست‌ها -->
+    @if (Model.Feeds != null && Model.Feeds.Any())
+    {
+        @foreach (var post in Model.Feeds)
+        {
+            <article class="post-card bg-white rounded-2xl mb-8 overflow-hidden shadow-lg">
+                <!-- هدر پست -->
+                <div class="flex items-center justify-between p-4">
+                    
+                    <button type="button">
+                        <i data-lucide="more-horizontal" class="w-6 h-6 text-gray-600"></i>
+                    </button>
+                </div>
+                <!-- تصویر پست + انیمیشن لایک دوبل‌کلیک -->
+                <div class="relative bg-black">
+                    <div class="post-media-area aspect-square cursor-pointer">
+                        <img src="/@post.ImgUrl" alt="پست @post.Title" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- اکشن‌ها و اطلاعات -->
+                <div class="p-4">
+
+                    <!-- کپشن -->
+                    <!-- کپشن و متن پست -->
+                    <div class="mt-2">
+                        <p class="text-sm font-bold text-gray-900 mb-2">
+                            عنوان: @post.Title
+                        </p>
+
+                        <div class="text-sm leading-relaxed text-gray-800 break-words">
+                            @if (post.Text.Length > 210)
+                            {
+                                <text>@post.Text.Substring(0, 210)<span class="text-gray-500">...</span> </text>
+                                
+                            }
+                            else
+                            {
+                                @post.Text
+                            }
+                        </div>
+                    </div>
+
+
+                    <!-- تاریخ -->
+                    <p class="text-xs text-gray-400 mt-4">
+                        @post.CreatedAtShamsi <!-- یا هر متدی که داری -->
+                    </p>
+                </div>
+            </article>
+
+        }
+        <!-- صفحه‌بندی (Pagination) - فقط HTML خالص برای تست -->
+        
+
+        <!-- متن کوچک زیر صفحه‌بندی (اختیاری) -->
+        @* <p class="text-center text-xs text-gray-500">
+            صفحه @Model.Page از @Model.TotalPage (@Model.PostCount پست)
+        </p> *@
+    }
+    else
+    {
+        <div class="text-center py-20">
+            <i data-lucide="image-off" class="w-24 h-24 text-gray-300 mx-auto mb-4"></i>
+            <p class="text-lg text-gray-500 font-medium">هنوز پستی منتشر نشده</p>
+            <p class="text-sm text-gray-400 mt-2">اولین پست خودت رو بساز!</p>
+        </div>
+    }
+</main>
