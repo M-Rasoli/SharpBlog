@@ -36,7 +36,10 @@
                     <p class="text-sm font-bold text-gray-900 mb-2">
                         عنوان: @Model.Post.Title
                     </p>
-
+                    <p class="text-xs text-gray-400 mt-4">
+                        دسته بندی - @Model.Post.Category <!-- یا هر متدی که داری -->
+                    </p>
+                    <br />
                     <div class="text-sm leading-relaxed text-gray-800 break-words">
 
                         @Model.Post.Text
@@ -44,14 +47,14 @@
                     </div>
                 </div>
 
-
                 <!-- تاریخ -->
                 <p class="text-xs text-gray-400 mt-4">
                     @Model.Post.CreatedAtShamsi <!-- یا هر متدی که داری -->
                 </p>
             </div>
-            <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
-                <a asp-page="/Index" class="px-8 py-3 bg-gray-500 text-white font-bold rounded-full hover:bg-gray-600 transition">
+            <div class="border-t border-gray-200 pt-5 text-center">
+                <a asp-page="/Index"
+                   class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-2xl shadow-xl transition duration-300">
                     بازگشت
                 </a>
             </div>
