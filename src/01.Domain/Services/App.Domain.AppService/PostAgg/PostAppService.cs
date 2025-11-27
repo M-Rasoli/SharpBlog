@@ -16,6 +16,12 @@ namespace App.Domain.AppService.PostAgg
 
         public Result<bool> Create(CreatePostDto createPost)
         {
+            if (string.IsNullOrWhiteSpace(createPost.Title)
+                || string.IsNullOrWhiteSpace(createPost.Text)
+                || createPost.CategoryId == 0)
+            {
+                return Result<bool>.Failure(message: "فیلد های اجباری نمی توانند خالی باشند.");
+            }
             var result = postService.Create(createPost);
             if (result > 0)
             {
