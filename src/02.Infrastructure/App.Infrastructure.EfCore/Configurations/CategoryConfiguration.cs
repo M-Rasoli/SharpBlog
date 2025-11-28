@@ -16,7 +16,7 @@ namespace App.Infrastructure.EfCore.Configurations
             builder.Property(c => c.Title).IsRequired().HasMaxLength(240);
 
             builder.HasMany(c => c.Posts).WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

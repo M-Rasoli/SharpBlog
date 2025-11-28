@@ -1,0 +1,108 @@
+﻿@page
+@using MaktabGram.Framework
+@model App.EndPoints.Presentation.RazorPages.Pages.Comments.ListModel
+@{
+    ViewData["Title"] = "نظرات کاربران";
+}
+
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <!-- هدر گرادینتی -->
+    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 rounded-2xl p-8 text-white text-center mb-10 shadow-xl">
+        <h1 class="text-4xl font-bold flex items-center justify-center gap-3">
+            <i data-lucide="message-square" class="w-10 h-10"></i>
+            نظرات کاربران
+        </h1>
+        <p class="mt-3 text-lg opacity-90">
+            @Model.Comments.Count نظر برای این پست ثبت شده است
+        </p>
+    </div>
+
+    @if (!Model.Comments.Any())
+    {
+        <div class="text-center py-16">
+            <i data-lucide="heart" class="w-20 h-20 text-gray-300 mx-auto mb-4"></i>
+            <p class="text-xl text-gray-500">هنوز نظری ثبت نشده است</p>
+            <p class="text-gray-400 mt-2">اولین نفری باشید که نظر می‌دهید!</p>
+            <a asp-page="/Comments/Create" asp-route-id="@Model.PostId"
+               class="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                <i data-lucide="edit-3" class="w-5 h-5"></i>
+                ثبت نظر جدید
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="space-y-6">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                    <div class="p-6">
+                        <!-- هدر نظر -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-4">
+                                <!-- آواتار دایره‌ای با حرف اول اسم -->
+                                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                                    @(string.IsNullOrEmpty(comment.FirstName) ? "?" : comment.FirstName[0].ToString().ToUpper())
+                                </div>
+
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">
+                                        @comment.FirstName @comment.LastName
+                                    </h3>
+                                    <p class="text-sm text-gray-500">
+                                        <i data-lucide="calendar" class="w-4 h-4 inline"></i>
+                                        @comment.CreatedAt.ToPersianString() <!-- متد اکستنشن زیر رو اضافه کن -->
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- امتیاز ستاره‌ای -->
+                            <div class="flex items-center gap-1">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Rate)
+                                    {
+                                        <i data-lucide="star" class="w-6 h-6 text-amber-400 fill-amber-400"></i>
+                                    }
+                                    else
+                                    {
+                                        <i data-lucide="star" class="w-6 h-6 text-gray-300"></i>
+                                    }
+                                }
+                                <span class="mr-2 text-sm font-medium text-gray-600">@comment.Rate از ۵</span>
+                            </div>
+                        </div>
+
+                        <!-- متن نظر -->
+                        <p class="text-gray-700 leading-relaxed text-justify">
+                            @comment.CommentText
+                        </p>
+                    </div>
+
+                    <!-- فوتر با خط گرادینت -->
+                    <div class="h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400"></div>
+                </div>
+            }
+        </div>
+
+        <!-- دکمه بازگشت و ثبت نظر جدید -->
+        <div class="flex justify-center gap-4 mt-10">
+            <a href="javascript:history.back()" class="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition">
+                بازگشت
+            </a>
+            <a asp-page="/Comments/Create" asp-route-id="@Model.PostId"
+               class="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl font-semibold hover:shadow-xl transform hover:scale-105 transition flex items-center gap-2">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                ثبت نظر جدید
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+    </script>
+}

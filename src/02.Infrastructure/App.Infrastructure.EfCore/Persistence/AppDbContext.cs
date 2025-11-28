@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using App.Domain.Core.AuthorAgg.Entities;
 using App.Domain.Core.CategoryAgg.Entities;
+using App.Domain.Core.CommentAgg.Entities;
 using App.Domain.Core.PostAgg.Entities;
 
 namespace App.Infrastructure.EfCore.Persistence
@@ -20,5 +22,6 @@ namespace App.Infrastructure.EfCore.Persistence
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

@@ -1,0 +1,155 @@
+﻿@page
+@model App.EndPoints.Presentation.RazorPages.Pages.Comments.CreateModel
+@{
+    ViewData["Title"] = "ثبت نظر";
+}
+
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <!-- هدر فرم -->
+        <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 p-8 text-white">
+            <h1 class="text-3xl font-bold text-center">نظر خود را درباره این پست بنویسید</h1>
+            <p class="text-center mt-2 opacity-90">ما مشتاق شنیدن نظر شما هستیم</p>
+        </div>
+
+        <!-- بدنه فرم -->
+        <div class="p-8">
+            <form method="post" asp-page-handler="Create">
+                <!-- نام و نام خانوادگی در یک خط -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">نام <span class="text-red-500">*</span></label>
+                        <input type="text" asp-for="Model.FirstName" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                               placeholder="مثال: علی" />
+                        <span asp-validation-for ="Model.FirstName" class="text-red-500 text-xs"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">نام خانوادگی <span class="text-red-500">*</span></label>
+                        <input type="text" asp-for="Model.LastName" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                               placeholder="مثال: محمدی" />
+                        <span asp-validation-for="Model.LastName" class="text-red-500 text-xs"></span>
+                    </div>
+                </div>
+
+                <!-- ایمیل -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">ایمیل <span class="text-red-500">*</span></label>
+                    <input type="email" asp-for="Model.Email" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                           placeholder="example@gmail.com" />
+                    <span asp-validation-for="Model.Email" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- امتیازدهی با ستاره -->
+                <div class="mb-8">
+                    <label class="block text-sm font-semibold text-gray-700 mb-4">امتیاز شما <span class="text-red-500">*</span></label>
+                    <div class="flex items-center justify-center gap-3">
+
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <label class="cursor-pointer transition-transform hover:scale-110">
+                                <input type="radio" asp-for="Model.Rate" value="@i" required class="hidden star-radio" />
+                                <i data-lucide="star" 
+                                   class="w-12 h-12 text-gray-300 hover:text-amber-400 transition star-icon"
+                                   data-value="@i"></i>
+                            </label>
+                        }
+                        <span class="mr-4 text-lg font-medium text-gray-600" id="rateText">هنوز امتیازی انتخاب نکردید</span>
+                    </div>
+                    <input type="hidden" asp-for="Model.Rate" id="hiddenRate" required />
+                </div>
+
+                <!-- متن نظر -->
+                <div class="mb-8">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">متن نظر <span class="text-red-500">*</span></label>
+                    <textarea asp-for="Model.CommentText" rows="6" required
+                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition resize-none"
+                              placeholder="نظر خود را با جزئیات بنویسید..."></textarea>
+                    <span asp-validation-for="Model.CommentText" class="text-red-500 text-xs"></span>
+                </div>
+
+                <!-- PostId مخفی (اگر از URL می‌گیرید، می‌تونید از TempData یا QueryString استفاده کنید) -->
+                <input type="hidden" asp-for="Model.PostId" value="@Model.Model.PostId" />
+
+                <!-- دکمه‌ها -->
+                <div class="flex justify-end gap-4">
+                    <a href="javascript:history.back()" 
+                       class="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition">
+                        انصراف
+                    </a>
+                    <button type="submit" 
+                            class="px-10 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition flex items-center gap-2">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                        ثبت نظر
+                    </button>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="mt-4 text-center text-sm text-red-600">@Model.Message</div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+
+            const stars = document.querySelectorAll('.star-icon');
+            const rateText = document.getElementById('rateText');
+            const hiddenRate = document.getElementById('hiddenRate');
+            const radioInputs = document.querySelectorAll('.star-radio');
+
+            let selectedRate = 0;
+
+            stars.forEach(star => {
+                const value = parseInt(star.getAttribute('data-value'));
+
+                // هاور: پر کردن ستاره‌ها تا این مقدار
+                star.parentElement.addEventListener('mouseenter', () => {
+                    fillStars(value);
+                });
+
+                star.parentElement.addEventListener('mouseleave', () => {
+                    fillStars(selectedRate);
+                });
+
+                // کلیک: انتخاب نهایی
+                star.parentElement.addEventListener('click', () => {
+                    selectedRate = value;
+                    fillStars(selectedRate);
+                    rateText.textContent = `${selectedRate} از ۵ ستاره`;
+                    hiddenRate.value = selectedRate;
+
+                    // انتخاب رادیو باتن مربوطه
+                    radioInputs[value - 1].checked = true;
+                });
+            });
+
+            function fillStars(upTo) {
+                stars.forEach((s, index) => {
+                    if (index < upTo) {
+                        s.classList.remove('text-gray-300');
+                        s.classList.add('text-amber-400', 'fill-amber-400');
+                    } else {
+                        s.classList.remove('text-amber-400', 'fill-amber-400');
+                        s.classList.add('text-gray-300');
+                    }
+                });
+            }
+
+            // مقدار اولیه (اگر از قبل مقدار داشت)
+            if (selectedRate > 0) {
+                fillStars(selectedRate);
+                rateText.textContent = `${selectedRate} از ۵ ستاره`;
+            }
+        });
+    </script>
+}

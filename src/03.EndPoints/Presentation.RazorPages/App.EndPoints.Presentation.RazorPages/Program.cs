@@ -1,15 +1,19 @@
 using App.Domain.AppService.AuthorAgg;
 using App.Domain.AppService.CategoryAgg;
+using App.Domain.AppService.CommentAgg;
 using App.Domain.AppService.PostAgg;
 using App.Domain.Core.AuthorAgg.Contracts;
 using App.Domain.Core.CategoryAgg.Contracts;
+using App.Domain.Core.CommentAgg.Contracts;
 using App.Domain.Core.PostAgg.Contracts;
 using App.Domain.Service.AuthorAgg;
 using App.Domain.Service.CategoryAgg;
+using App.Domain.Service.CommentAgg;
 using App.Domain.Service.PostAgg;
 using App.Infrastructure.EfCore.Persistence;
 using App.Infrastructure.EfCore.Repositories.AuthorAgg;
 using App.Infrastructure.EfCore.Repositories.CategoryAgg;
+using App.Infrastructure.EfCore.Repositories.CommentAgg;
 using App.Infrastructure.EfCore.Repositories.PostAgg;
 using App.Infrastructure.FileService.Contracts;
 using App.Infrastructure.FileService.Services;
@@ -36,6 +40,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 
 builder.Services.AddScoped<IFileService, FileService>();
+
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 
 
 

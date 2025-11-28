@@ -17,6 +17,8 @@ namespace App.Infrastructure.EfCore.Configurations
             builder.Property(p => p.Text).IsRequired().HasMaxLength(4000);
             builder.Property(p => p.ImgUrl).IsRequired(false).HasMaxLength(4000);
 
+            builder.HasMany(p => p.Comments).WithOne(c => c.Post)
+                .HasForeignKey(c => c.PostId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

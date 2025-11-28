@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model App.EndPoints.Presentation.RazorPages.Pages.Authors.PostsModel
 @{
     Layout = "Shared/_LayoutProfile";
@@ -80,13 +80,30 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@post.Category</td>
 
 
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a asp-page="/Posts/Edit" asp-route-Id="@post.Id" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-blue-600 transition duration-150 shadow-md">ویرایش</a>
-                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4 space-x-reverse">
+                                    <!-- دکمه ویرایش -->
+                                    <a asp-page="/Posts/Edit" 
+                                       asp-route-Id="@post.Id" 
+                                       class="inline-block px-4 py-2 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition shadow-md">
+                                        ویرایش
+                                    </a>
 
+                                    <!-- دکمه مشاهده کامنت‌ها - خفن و جذاب -->
+                                    <a asp-page="/Authors/PostComments" 
+                                       asp-route-Id="@post.Id" 
+                                       class="inline-block px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white text-xs rounded-lg hover:shadow-xl transform hover:scale-105 transition shadow-md font-medium">
+                                        <i data-lucide="message-square" class="w-4 h-4 inline-block align-text-bottom"></i>
+                                        کامنت‌ها 
+                                    </a>
 
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a asp-page-handler="Delete" asp-route-Id="@post.Id" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-blue-600 transition duration-150 shadow-md" onclick="return confirm('پست حذف شود ؟');">حذف</a>
+                                    <!-- دکمه حذف -->
+                                    <form asp-page-handler="Delete" asp-route-Id="@post.Id" method="post" class="inline">
+                                        <button type="submit" 
+                                                onclick="return confirm('مطمئنی می‌خوای این پست و همه کامنت‌هاش حذف بشه؟');"
+                                                class="px-4 py-2 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition shadow-md">
+                                            حذف
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         }
