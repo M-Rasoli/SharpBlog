@@ -16,7 +16,7 @@ namespace App.EndPoints.Presentation.RazorPages.Pages.Authors
             return Page();
         }
 
-        public IActionResult OnGetDelete(int Id)
+        public IActionResult OnPostDelete(int Id)
         {
             var result = postAppService.Delete(Id);
             if (result.IsSuccess)

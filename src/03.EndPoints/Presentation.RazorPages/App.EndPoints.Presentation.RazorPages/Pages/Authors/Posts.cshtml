@@ -97,7 +97,7 @@
                                     </a>
 
                                     <!-- دکمه حذف -->
-                                    <form asp-page-handler="Delete" asp-route-Id="@post.Id" method="post" class="inline">
+                                    <form method="post" asp-page-handler="Delete" asp-route-Id="@post.Id" class="inline">
                                         <button type="submit" 
                                                 onclick="return confirm('مطمئنی می‌خوای این پست و همه کامنت‌هاش حذف بشه؟');"
                                                 class="px-4 py-2 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition shadow-md">
